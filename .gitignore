@@ -11,3 +11,7 @@ build/
 
 # Ignore editor configs
 .vscode/
+
+#ignore c# shit?
+Script/AoCRunner/bin
+Script/AoCRunner/obj
