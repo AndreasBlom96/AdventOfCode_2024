@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "vlCKnB9rC7Q=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\anblo\\Documents\\CodingProjects\\AoC_Uni\\Script\\AoCRunner\\AoCRunner.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\anblo\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.6\\microsoft.net.illink.tasks.9.0.6.nupkg.sha512",
+    "C:\\Users\\anblo\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.6\\microsoft.netcore.app.runtime.win-x64.9.0.6.nupkg.sha512",
+    "C:\\Users\\anblo\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.6\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.6.nupkg.sha512",
+    "C:\\Users\\anblo\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.6\\microsoft.aspnetcore.app.runtime.win-x64.9.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{0BB39A05-1926-C2B2-7003-8EB281EB5439}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoCRunner", "Script\AoCRunner\AoCRunner.csproj", "{608507C7-5599-3326-865F-6A04ED372E7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{608507C7-5599-3326-865F-6A04ED372E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608507C7-5599-3326-865F-6A04ED372E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608507C7-5599-3326-865F-6A04ED372E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608507C7-5599-3326-865F-6A04ED372E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{608507C7-5599-3326-865F-6A04ED372E7A} = {0BB39A05-1926-C2B2-7003-8EB281EB5439}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6815C119-672A-4083-8A3F-C61BD7FB9BD7}
+	EndGlobalSection
+EndGlobal

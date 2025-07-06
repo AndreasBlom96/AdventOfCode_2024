@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.10.0)
+project(AoC VERSION 0.1.0 LANGUAGES C CXX)
+
+add_subdirectory(day01)
+add_subdirectory(day03)
+add_subdirectory(day04)
+add_subdirectory(day05)
+add_subdirectory(day06)
+add_subdirectory(day07)
+add_subdirectory(common)
+
+include(CTest)
+enable_testing()
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)

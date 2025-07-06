@@ -1,0 +1,2 @@
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Release\net9.0\win-x64\publish\AoCRunner.pdb
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Release\net9.0\win-x64\publish\AoCRunner.exe

@@ -1,0 +1,14 @@
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Debug\net9.0\AoCRunner.exe
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Debug\net9.0\AoCRunner.deps.json
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Debug\net9.0\AoCRunner.runtimeconfig.json
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Debug\net9.0\AoCRunner.dll
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\bin\Debug\net9.0\AoCRunner.pdb
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.AssemblyInfoInputs.cache
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.AssemblyInfo.cs
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.csproj.CoreCompileInputs.cache
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.dll
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\refint\AoCRunner.dll
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.pdb
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\AoCRunner.genruntimeconfig.cache
+C:\Users\anblo\Documents\CodingProjects\AoC_Uni\Script\AoCRunner\obj\Debug\net9.0\ref\AoCRunner.dll
