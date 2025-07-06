@@ -13,5 +13,4 @@ build/
 .vscode/
 
 #ignore c# shit?
-Script/AoCRunner/bin
-Script/AoCRunner/obj
+Script/AoCRunner/
