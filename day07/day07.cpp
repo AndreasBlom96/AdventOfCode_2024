@@ -55,7 +55,7 @@ namespace day07{
     }
 
     unsigned long long applyOps(const vector<unsigned long long> &nums, int mask){
-        long long result = nums[0];
+        unsigned long long result = nums[0];
         for(int i =1; i < nums.size(); i++){
             if((mask >> i-1) & 1){
                 result *= nums[i];
@@ -66,7 +66,39 @@ namespace day07{
         return result;
     }
 
+    unsigned long long mash(unsigned long long a,unsigned long long b){
+        return stoull(to_string(a) + to_string(b));
+    }
 
+    bool applyOps_B(const vector<unsigned long long> nums, int mask, long long target){
+        int n = nums.size();
+        int mashCombCount = mask;
+
+        for (int mashMask = 0; mashMask < mashCombCount; mashMask++){
+        vector<unsigned long long> vMashed;
+        unsigned long long current = nums[0];
+
+            for(int j = 0; j < n-1; j++)
+            {
+                if((mashMask >> j) & 1){
+                    current = mash(current , nums[j+1]);
+                } else {
+                    vMashed.push_back(current);
+                    current = nums[j+1];
+                }
+            }
+            vMashed.push_back(current);
+
+            for(int i = 0; i<mask;i++){
+                if(applyOps(vMashed,i) == target){
+                    return true;
+                }
+            }
+        }
+        
+
+        return false;
+    }
 
     unsigned long long solve_B(string input){
         unsigned long long ans = 0;
@@ -82,7 +114,7 @@ namespace day07{
             vector<unsigned long long> v;
             cout << line << endl;
             int index = line.find(":");
-            value = stoll(line);
+            value = stoull(line);
             values.push_back(value);
 
             tempNumbers = line.substr(index+2);
@@ -102,7 +134,11 @@ namespace day07{
             value = values[i];
             //cout << "checking value: " << value << ", with numbers ->" << numbersToCheck[0] << endl;
 
-            int num_of_variations = pow(3,numbersToCheck.size()-1);
+            int num_of_variations = pow(2,numbersToCheck.size()-1);
+            if(applyOps_B(numbersToCheck, num_of_variations, value)){
+                cout << "found combination: " << value << endl;
+                ans += value;
+            }
         }
 
         return ans;
