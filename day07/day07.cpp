@@ -7,18 +7,18 @@
 
 namespace day07{
     using namespace std;
-    int solve_A(string input){
-        int ans = 0;
+    unsigned long long solve_A(string input){
+        unsigned long long ans = 0;
         vector<string> lines = utils::ReadAllLines(input);
 
-        long long value;
-        vector<int> values;
+        unsigned long long value;
+        vector<unsigned long long> values;
         string tempNumbers;
-        vector<vector<int>> numbers;
+        vector<vector<unsigned long long>> numbers;
         int i=0;
         for (string line : lines)
         {
-            vector<int> v;
+            vector<unsigned long long> v;
             cout << line << endl;
             int index = line.find(":");
             value = stoll(line);
@@ -37,7 +37,7 @@ namespace day07{
         cout << endl;
         
         for(int i=0; i < values.size(); i++){
-            vector<int> numbersToCheck = numbers[i];
+            vector<unsigned long long> numbersToCheck = numbers[i];
             value = values[i];
             //cout << "checking value: " << value << ", with numbers ->" << numbersToCheck[0] << endl;
 
@@ -54,7 +54,7 @@ namespace day07{
         return ans;
     }
 
-    long long applyOps(const vector<int> &nums, int mask){
+    unsigned long long applyOps(const vector<unsigned long long> &nums, int mask){
         long long result = nums[0];
         for(int i =1; i < nums.size(); i++){
             if((mask >> i-1) & 1){
@@ -68,9 +68,43 @@ namespace day07{
 
 
 
-    int solve_B(string input){
-        int ans = 0;
-        
+    unsigned long long solve_B(string input){
+        unsigned long long ans = 0;
+        vector<string> lines = utils::ReadAllLines(input);
+
+        unsigned long long value;
+        vector<unsigned long long> values;
+        string tempNumbers;
+        vector<vector<unsigned long long>> numbers;
+        int i=0;
+        for (string line : lines)
+        {
+            vector<unsigned long long> v;
+            cout << line << endl;
+            int index = line.find(":");
+            value = stoll(line);
+            values.push_back(value);
+
+            tempNumbers = line.substr(index+2);
+            while(tempNumbers.find(" ") != string::npos){
+                v.push_back(stoi(tempNumbers));
+                index = tempNumbers.find(" ");
+                tempNumbers = tempNumbers.substr(index+1);
+            }
+            v.push_back(stoi(tempNumbers));
+            numbers.push_back(v);
+            i++;
+        }
+        cout << endl;
+
+        for(int i=0; i < values.size(); i++){
+            vector<unsigned long long> numbersToCheck = numbers[i];
+            value = values[i];
+            //cout << "checking value: " << value << ", with numbers ->" << numbersToCheck[0] << endl;
+
+            int num_of_variations = pow(3,numbersToCheck.size()-1);
+        }
+
         return ans;
     }
 }
@@ -78,7 +112,7 @@ namespace day07{
 
 int main(int argc, char* argv[]){
     std::string input = INPUT_DAY_7;
-    int result;
+    unsigned long long result;
     if (argc >= 3 and std::string(argv[2]) == "example")
     {
         input = INPUT_DAY_7_example;
