@@ -1,7 +1,7 @@
 import requests
 import time
 
-day = 7
+day = 8
 year = 2024
 
 session_cookie = "53616c7465645f5f82eb2a130147026a21a12b32d641ea6d6717d623b63fdf38d8518ff55feee89b724d72c954c203a56c6cacc661a19eef3ba62fd35599e403"

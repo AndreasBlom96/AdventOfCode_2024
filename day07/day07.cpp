@@ -70,33 +70,44 @@ namespace day07{
         return stoull(to_string(a) + to_string(b));
     }
 
+    vector<int> make_terniary(int mask, int size){
+        vector<int> result;
+        int value = mask;
+        for (int i = 0; i < size; i++)
+        {
+            result.push_back(value % 3);
+            value /= 3;
+        }
+        return result;
+    }
+
     bool applyOps_B(const vector<unsigned long long> nums, int mask, long long target){
         int n = nums.size();
-        int mashCombCount = mask;
-
-        for (int mashMask = 0; mashMask < mashCombCount; mashMask++){
-        vector<unsigned long long> vMashed;
-        unsigned long long current = nums[0];
-
-            for(int j = 0; j < n-1; j++)
+        vector<int> spots;
+        for (int i = 0; i < mask; i++)
+        {
+            spots = make_terniary(i, n-1);
+            unsigned long long res = nums[0];
+            for (int j = 0; j < n-1; j++)
             {
-                if((mashMask >> j) & 1){
-                    current = mash(current , nums[j+1]);
-                } else {
-                    vMashed.push_back(current);
-                    current = nums[j+1];
+                if(spots[j] == 0){
+                    //multiply
+                    res *= nums[j+1];
+                } else if (spots[j] == 1)
+                {
+                    //add
+                    res += nums[j+1];
+                } else if (spots[j] == 2)
+                {
+                    //mash
+                    res = mash(res, nums[j+1]);
                 }
             }
-            vMashed.push_back(current);
-
-            for(int i = 0; i<mask;i++){
-                if(applyOps(vMashed,i) == target){
-                    return true;
-                }
+            if(res == target){
+                //found it!
+                return true;
             }
         }
-        
-
         return false;
     }
 
@@ -112,7 +123,7 @@ namespace day07{
         for (string line : lines)
         {
             vector<unsigned long long> v;
-            cout << line << endl;
+            //cout << line << endl;
             int index = line.find(":");
             value = stoull(line);
             values.push_back(value);
@@ -134,9 +145,9 @@ namespace day07{
             value = values[i];
             //cout << "checking value: " << value << ", with numbers ->" << numbersToCheck[0] << endl;
 
-            int num_of_variations = pow(2,numbersToCheck.size()-1);
+            int num_of_variations = pow(3,numbersToCheck.size()-1);
             if(applyOps_B(numbersToCheck, num_of_variations, value)){
-                cout << "found combination: " << value << endl;
+                //cout << "found combination: " << value << endl;
                 ans += value;
             }
         }
