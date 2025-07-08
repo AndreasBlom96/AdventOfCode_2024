@@ -2,12 +2,47 @@
 #include <chrono>
 #include "day08.h"
 #include <iostream>
+#include <algorithm>
+#include "../Common/utils.h"
 
 namespace day08{
     using namespace std;
 
     int solve_A(string input){
         int ans = 0;
+        vector<string> map = utils::ReadAllLines(input);
+        vector<antenna> antennas;
+        for(int row=0; row < map.size(); row++){
+            for(int col =0; col<map[row].length(); col++){
+                if(map[row][col] != '.'){
+                    //save coordinate of type in vector
+                    antennas.push_back(antenna{row, col, map[row][col]});
+                }
+            }
+        }
+
+        vector<char> antennas_types;
+        //antennas by type? 
+        for (antenna a : antennas)
+        {
+            if(find(antennas_types.begin(), antennas_types.end(), a.freq) == antennas_types.end()){
+                antennas_types.push_back(a.freq);
+            }
+        }
+
+        //now group antennas
+        vector<vector<antenna>> antennas_grouped;
+        for (char c : antennas_types)
+        {
+            vector<antenna> v;
+            for (int i = 0; i < antennas.size(); i++)
+            {
+                if(antennas[i].freq == c) v.push_back(antennas[i]);
+            }
+            antennas_grouped.push_back(v);
+        }
+        
+        
 
         return ans;
     }
