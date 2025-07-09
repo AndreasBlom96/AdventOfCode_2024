@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include "../Common/utils.h"
+#include <math.h>
 
 namespace day08{
     using namespace std;
@@ -18,7 +19,9 @@ namespace day08{
                     //save coordinate of type in vector
                     antennas.push_back(antenna{row, col, map[row][col]});
                 }
+                cout << map[row][col];
             }
+            cout << endl;
         }
 
         vector<char> antennas_types;
@@ -42,9 +45,62 @@ namespace day08{
             antennas_grouped.push_back(v);
         }
         
-        
+        for (int i = 0; i < antennas_grouped.size(); i++)
+        {
+            int n = antennas_grouped[i].size();
+            cout << "looking at: " << antennas_grouped[i][0].freq << endl;
+            for (int j = 0; j < n; j++)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    if(j==k) continue;
+                    // here i have two different antennas with same freq!
+                    antenna a = antennas_grouped[i][j];
+                    antenna b = antennas_grouped[i][k];
+                    int dy = b.row - a.row;
+                    int dx = b.col - a.col;
+                    int antinodeY = a.row - dy;
+                    int antinodeX = a.col - dx;
+                    if (check_bounds(map, antinodeY, antinodeX))
+                    {
+                        map[antinodeY][antinodeX] = '#';
+                    }
+                    
+                    //int k_factor = find_k(antennas_grouped[i][j], antennas_grouped[i][k]);
+                    //int dist = distance(antennas_grouped[i][j],antennas_grouped[i][k]);
+                    //cout << "comparing antennas: " << antennas_grouped[i][k] << " with " << antennas_grouped[i][j] << endl;
+                    //cout << "dist: " << dist << "  k: " << k_factor << endl;
+                }
+                
+            }
+            
+        }
+        for(string lines : map){
+            cout << lines << endl;
+            for (int i = 0; i < lines.length(); i++)
+            {
+                if(lines[i] == '#') ans++;
+            }
+            
+        }
 
         return ans;
+    }
+
+    bool check_bounds(vector<string> &map, int row, int col){
+        if(row < 0 or row >= map.size()) return false;
+        if(col < 0 or col >= map[row].length()) return false;
+        return true;
+    }
+
+    int distance(antenna a, antenna b){
+        return abs(a.row-b.row) + abs(a.col-b.col);
+    }
+
+    int find_k(antenna a, antenna b){
+        int res = a.row - b.row;
+        res /= a.col - b.col;
+        return res;
     }
 
     int solve_B(string input){
