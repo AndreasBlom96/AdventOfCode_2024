@@ -90,7 +90,7 @@ if __name__== "__main__":
     print(project_path)
 
     if argc > 1:
-        if argv[1] == "help":
+        if argv[1].lower() == "help":
             print(" specify day!")
         day = int(argv[1])
         if day < 25 and day > 0:

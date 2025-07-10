@@ -39,7 +39,7 @@ if __name__ == "__main__":
     argc = len(argv)
 
     if argc > 1:
-        if argv[1] == "help":
+        if argv[1].lower() == "help":
             print(" specify day!")
         day = int(argv[1])
         if day < 25 and day > 0:
