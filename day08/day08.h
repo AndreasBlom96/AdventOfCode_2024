@@ -20,8 +20,6 @@ std::ostream& operator<<(std::ostream& os, const antenna& a) {
 namespace day08{
     int solve_A(std::string input);
     int solve_B(std::string input);
-    int find_k(antenna a, antenna b);
-    int distance(antenna a, antenna b);
     bool check_bounds(std::vector<std::string> &map, int row, int col);
 
 }
