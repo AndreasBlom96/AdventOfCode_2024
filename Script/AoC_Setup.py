@@ -61,6 +61,7 @@ def make_cpp_file(path, day):
 
     print("creating cpp file")
     if os.path.exists(path):
+        print("cpp file for day already exists. skipping....")
         return
     with open(path,"w") as cppFile:
         cppFile.write(text)
@@ -71,6 +72,7 @@ def make_h_file(path, day):
 
     print("creating .h file")
     if os.path.exists(path):
+        print("h file for day already exists. skipping....")
         return
     with open(path, "w") as hFile:
         hFile.write(text)
@@ -78,6 +80,7 @@ def make_h_file(path, day):
 def make_CMake(text, path):
     print("creating CMakeLists for the day")
     if os.path.exists(path):
+        print("CMakelists file for day already exists. skipping....")
         return
     with open(path, "w") as CMakeFile:
         CMakeFile.write(text)
@@ -102,6 +105,10 @@ if __name__== "__main__":
             setup(day)
         else:
             print("day must be between 0 and 25")
+    else:
+        day = int(input("what day do you want to setup?: "))
+        if day < 26 and day > 0:
+            setup(day) 
 
 
 
