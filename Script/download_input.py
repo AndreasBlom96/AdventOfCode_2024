@@ -12,11 +12,21 @@ def fetch_input_data(day):
     #check if the path has a size > 0 OR  even exists OR has the same text i want to copy in
     input_path = f"C:/Users/anblo/Documents/CodingProjects/AoC_Uni/inputs/day{day:02}.txt"
     example_path = f"C:/Users/anblo/Documents/CodingProjects/AoC_Uni/inputs/day{day:02}_example.txt"
+
+    script_path = os.path.abspath(__file__)
+    script_dir = os.path.dirname(script_path)
+    project_path = os.path.abspath(os.path.join(script_dir,".."))
+    input_path = os.path.join(project_path, f"inputs/day{day:02}.txt")
+    example_path = os.path.join(project_path, f"inputs/day{day:02}_example.txt")
+    print("script path: ", script_path)
+    print("project path: ",project_path)
+    print("input path: ", input_path)
+
     #input_path = f"A/inputs/day{day:02}.txt"
     if os.path.exists(input_path):
         print(f"input txt file for day {day:02} already exists! want to continue anyway? .....")
         ans = input("y/n:  ")
-        if ans!="Y":
+        if ans!="y":
             print("exiting...")
             return
     
