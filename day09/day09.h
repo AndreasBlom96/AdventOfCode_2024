@@ -9,4 +9,5 @@ std::string INPUT_DAY_09_example = "C:\\Users\\anblo\\Documents\\CodingProjects\
 namespace day09{
     int solve_A(std::string input);
     int solve_B(std::string input);
+    int push_back_memory(std::vector<char> &line, char c, int k);
 }

@@ -3,13 +3,52 @@
 #include <iostream>
 #include <chrono>
 #include "day09.h"
+#include <deque>
 
 namespace day09{
     using namespace std;
     int solve_A(string input){
         int ans = 0;
+        ifstream file;
+        string line;
+        file.open(input);
+        if(!file){
+            cout << "cant open file" << endl;
+            return ans;
+        }
+        getline(file, line);
+
+        cout << line << endl;
+
+        bool freeSpace = false;
+        deque<int> freespace;
+        vector<char> memory;
+        int ID = 0;
+        for (int i = 0; i < line.length(); i++)
+        {
+            if(freeSpace){
+                push_back_memory(memory, '.', line[i]-'0');
+                freeSpace = false;
+            } else {
+                freeSpace = true;
+                push_back_memory(memory, char(ID), line[i]- '0');
+                ID++;
+            }
+        }
+        for (int i = 0; i < memory.size(); i++)
+        {
+            cout << memory[i];
+        }
+        cout << endl;
 
         return ans;
+    }
+
+    int push_back_memory(vector<char> &line, char c, int k){
+        for(int i=0; i< k; i++){
+            line.push_back(c);
+        }
+        return 1;
     }
 
     int solve_B(string input){
