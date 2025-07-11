@@ -6,7 +6,6 @@ import os
 def fetch_input_data(day):
     year = 2024
     print(f"fetching input data for day:{day:02} , year: {year}")
-    session_cookie = "53616c7465645f5f82eb2a130147026a21a12b32d641ea6d6717d623b63fdf38d8518ff55feee89b724d72c954c203a56c6cacc661a19eef3ba62fd35599e403"
     url = f"https://adventofcode.com/{year}/day/{day}/input"
 
     #check if the path has a size > 0 OR  even exists OR has the same text i want to copy in
@@ -18,9 +17,11 @@ def fetch_input_data(day):
     project_path = os.path.abspath(os.path.join(script_dir,".."))
     input_path = os.path.join(project_path, f"inputs/day{day:02}.txt")
     example_path = os.path.join(project_path, f"inputs/day{day:02}_example.txt")
-    print("script path: ", script_path)
-    print("project path: ",project_path)
-    print("input path: ", input_path)
+
+    #fetch cookie session
+    with open(os.path.join(script_dir,"cookie_session.txt"),"r") as cookies:
+        for line in cookies:
+            session_cookie = line
 
     #input_path = f"A/inputs/day{day:02}.txt"
     if os.path.exists(input_path):
@@ -56,3 +57,7 @@ if __name__ == "__main__":
             fetch_input_data(day)
         else:
             print("day must be between 0 and 25")
+    else: 
+        day = int(input("SPECIFY DAY! : "))
+        if day < 26 and day > 0:
+            fetch_input_data(day)
