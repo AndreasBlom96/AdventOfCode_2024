@@ -15,5 +15,6 @@ build/
 #ignore c# shit?
 Script/AoCRunner/
 
+cookie_session.txt
 
 *.pyc
