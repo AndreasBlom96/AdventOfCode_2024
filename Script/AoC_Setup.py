@@ -30,8 +30,13 @@ def setup(day):
     #make h file
     make_h_file(h_file, day)
 
+    #write CMakeLists for day
     make_CMake(CMake_text(day), Cmake_file)
+
+    #edit root CMakeLists
     root_CMake_line(root_CMake_line_text, project_path + f"/CMakeLists.txt")
+
+    #fetch input data from web
     fetch_input_data(day)
 
 def root_CMake_line(line, path):
@@ -49,7 +54,6 @@ def read_template(path, day):
     with open(path, "r") as file:
         content = file.read()
     return content.replace("?", f"{day:02}")
-
 
 def make_cpp_file(path, day):
     template_path = "C:/Users/anblo/Documents/CodingProjects/AoC_Uni/Script/template/template_main_cpp.txt"
