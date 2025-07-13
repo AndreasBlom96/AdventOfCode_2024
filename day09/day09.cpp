@@ -3,12 +3,12 @@
 #include <iostream>
 #include <chrono>
 #include "day09.h"
-#include <deque>
+#include <algorithm>
 
 namespace day09{
     using namespace std;
-    int solve_A(string input){
-        int ans = 0;
+    unsigned long long solve_A(string input){
+        unsigned long long ans = 0;
         ifstream file;
         string line;
         file.open(input);
@@ -21,34 +21,88 @@ namespace day09{
         cout << line << endl;
 
         bool freeSpace = false;
-        deque<int> freespace;
-        vector<char> memory;
+        vector<block> memory;
+        vector<block> freeMemory;
         int ID = 0;
+        int index = 0;
         for (int i = 0; i < line.length(); i++)
         {
+            block b;
+            b.index = index;
+            b.length = line[i] - '0';
             if(freeSpace){
-                push_back_memory(memory, '.', line[i]-'0');
                 freeSpace = false;
+                b.ID = -1;
+                if(b.length == 0)continue;
+                freeMemory.push_back(b);
             } else {
                 freeSpace = true;
-                push_back_memory(memory, char(ID), line[i]- '0');
+                b.ID = ID;
                 ID++;
+                if(b.length == 0)continue;
+                memory.push_back(b);
             }
+            index += line[i] - '0';
         }
-        for (int i = 0; i < memory.size(); i++)
-        {
-            cout << memory[i];
+
+        /*
+        cout << "memory!" << endl;
+        for(int i = 0; i < memory.size(); i++){
+            cout << memory[i] << endl;
         }
         cout << endl;
 
-        return ans;
-    }
-
-    int push_back_memory(vector<char> &line, char c, int k){
-        for(int i=0; i< k; i++){
-            line.push_back(c);
+        cout << "free memeory" << endl;
+        for(int i = 0; i < freeMemory.size(); i++){
+            cout << freeMemory[i] << endl;
         }
-        return 1;
+        */
+
+        //memory ok! 
+        bool flag = true;
+        for(int i = 0; i < freeMemory.size(); i++){
+            //case same length
+            block f = freeMemory[i];
+            block b = memory.back();
+            if(f.index > b.index)break;
+            if(f.length == b.length){
+                b.index = f.index;
+                memory.insert(memory.begin(), b);
+                memory.pop_back();
+            } else if (f.length > b.length){
+                //wtf am i going to do here!
+                b.index = f.index;
+                memory.insert(memory.begin(), b);
+                memory.pop_back();
+                freeMemory[i].length -= b.length;
+                freeMemory[i].index += b.length;
+                i--;
+            } else if(f.length < b.length){
+                block c;
+                c.ID = b.ID;
+                c.index = f.index;
+                c.length = f.length;
+                memory.insert(memory.begin(),c);
+                b.length -= f.length;
+                memory.pop_back();
+                memory.push_back(b);
+            }
+            
+        }
+
+        //check ans
+        for(int i = 0; i < memory.size(); i++){
+            block b = memory[i];
+            int res = 0;
+            for (int k = 0; k < b.length; k++)
+            {
+                //cout << "index: " << b.index + k << " ID: " << b.ID << endl;  
+                res += (b.index + k) * b.ID;
+            }
+            ans += res;
+        }
+
+        return ans;
     }
 
     int solve_B(string input){
