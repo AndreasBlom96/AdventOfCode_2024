@@ -8,7 +8,7 @@ std::string INPUT_DAY_09_example = "C:\\Users\\anblo\\Documents\\CodingProjects\
 
 namespace day09{
     unsigned long long solve_A(std::string input);
-    int solve_B(std::string input);
+    unsigned long long solve_B(std::string input);
 }
 
 struct block{

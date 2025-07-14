@@ -88,7 +88,6 @@ namespace day09{
                 memory.push_back(b);
                 f.length = 0;
             }
-            
         }
 
         //check ans
@@ -100,13 +99,76 @@ namespace day09{
                 ans += (b.index + k) * b.ID;
             }
         }
-
         return ans;
     }
 
-    int solve_B(string input){
-        int ans = 0;
+    unsigned long long solve_B(string input){
+        unsigned long long ans = 0;
+        ifstream file;
+        string line;
+        file.open(input);
+        if(!file){
+            cout << "cant open file" << endl;
+            return ans;
+        }
+        getline(file, line);
 
+        if(line.length() < 25)cout << line << endl;
+
+        bool freeSpace = false;
+        vector<block> memory;
+        vector<block> freeMemory;
+        int ID = 0;
+        int index = 0;
+        for (int i = 0; i < line.length(); i++)
+        {
+            block b;
+            b.index = index;
+            b.length = line[i] - '0';
+            if(freeSpace){
+                freeSpace = false;
+                b.ID = -1;
+                if(b.length == 0)continue;
+                freeMemory.push_back(b);
+            } else {
+                freeSpace = true;
+                b.ID = ID;
+                ID++;
+                //if(b.length == 0)continue;
+                memory.push_back(b);
+            }
+            index += line[i] - '0';
+        }
+
+        auto it = memory.end();
+        it--;
+        while(it != memory.begin()){
+            block &b = *it;
+            for(auto fit = freeMemory.begin(); fit != freeMemory.end(); fit++){
+                block &f = *fit;
+                if(b.index < f.index) break;
+                if(f.length == b.length){
+                    b.index = f.index;
+                    freeMemory.erase(fit);
+                } else if (f.length > b.length)
+                {
+                    b.index = f.index;
+                    f.index += b.length;
+                    f.length -= b.length;
+                }
+            }
+            it--;
+        }
+
+        //check ans
+        for(int i = 0; i < memory.size(); i++){
+            block b = memory[i];
+            for (int k = 0; k < b.length; k++)
+            {
+                //cout << "index: " << b.index + k << " ID: " << b.ID << endl;  
+                ans += (b.index + k) * b.ID;
+            }
+        }
         return ans;
     }
 
