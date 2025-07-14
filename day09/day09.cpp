@@ -18,7 +18,7 @@ namespace day09{
         }
         getline(file, line);
 
-        cout << line << endl;
+        if(line.length() < 25)cout << line << endl;
 
         bool freeSpace = false;
         vector<block> memory;
@@ -39,7 +39,7 @@ namespace day09{
                 freeSpace = true;
                 b.ID = ID;
                 ID++;
-                if(b.length == 0)continue;
+                //if(b.length == 0)continue;
                 memory.push_back(b);
             }
             index += line[i] - '0';
@@ -59,14 +59,14 @@ namespace day09{
         */
 
         //memory ok! 
-        bool flag = true;
         for(int i = 0; i < freeMemory.size(); i++){
             //case same length
-            block f = freeMemory[i];
+            block &f = freeMemory[i];
             block b = memory.back();
             if(f.index > b.index)break;
             if(f.length == b.length){
                 b.index = f.index;
+                f.length = 0;
                 memory.insert(memory.begin(), b);
                 memory.pop_back();
             } else if (f.length > b.length){
@@ -74,8 +74,8 @@ namespace day09{
                 b.index = f.index;
                 memory.insert(memory.begin(), b);
                 memory.pop_back();
-                freeMemory[i].length -= b.length;
-                freeMemory[i].index += b.length;
+                f.length -= b.length;
+                f.index += b.length;
                 i--;
             } else if(f.length < b.length){
                 block c;
@@ -83,9 +83,10 @@ namespace day09{
                 c.index = f.index;
                 c.length = f.length;
                 memory.insert(memory.begin(),c);
-                b.length -= f.length;
                 memory.pop_back();
+                b.length -= f.length;
                 memory.push_back(b);
+                f.length = 0;
             }
             
         }
@@ -93,13 +94,11 @@ namespace day09{
         //check ans
         for(int i = 0; i < memory.size(); i++){
             block b = memory[i];
-            int res = 0;
             for (int k = 0; k < b.length; k++)
             {
                 //cout << "index: " << b.index + k << " ID: " << b.ID << endl;  
-                res += (b.index + k) * b.ID;
+                ans += (b.index + k) * b.ID;
             }
-            ans += res;
         }
 
         return ans;
