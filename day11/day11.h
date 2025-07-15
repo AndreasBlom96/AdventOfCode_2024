@@ -9,4 +9,5 @@ std::string INPUT_DAY_11_example = "C:\\Users\\anblo\\Documents\\CodingProjects\
 namespace day11{
     int solve_A(std::string input);
     int solve_B(std::string input);
+    void remove_leading_zeroes(std::string &s);
 }
