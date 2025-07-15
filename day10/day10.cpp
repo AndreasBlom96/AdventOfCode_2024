@@ -24,8 +24,6 @@ namespace day10{
             vector<pair<int,int>> visited;
             ans += recursePath(map, heads[i], 0, visited);
         }
-        
-
         return ans;
     }
 
@@ -96,9 +94,38 @@ namespace day10{
         return score;
     }
 
+    int recursePath_B(vector<string> &map, pair<int,int> head, int depth, vector<pair<int,int>> &v){
+        int score = 0;
+        vector<path> paths = checkPaths(map, head);
+        int numPaths = paths.size();
+        auto it = find(v.begin(), v.end(), head);
+        if(depth == 9 and it == v.end()){
+            return 1;
+        } 
+        if(numPaths == 0 or it != v.end()) return 0;
+        for(int i = 0; i<numPaths; i++){
+           score += recursePath_B(map,step(head,paths[i]),depth+1, v);
+        }
+        return score;
+    }
+
     int solve_B(string input){
         int ans = 0;
+        vector<string> map = utils::ReadAllLines(input);
 
+        //finding heads
+        vector<pair<int,int>> heads;
+        for(int i = 0; i<map.size(); i++){
+            for(int k = 0; k < map[i].length(); k++){
+                if(map[i][k] == '0') heads.push_back(make_pair(i,k));
+            }
+        }
+
+        //recursive solution
+        for(int i = 0; i< heads.size(); i++){
+            vector<pair<int,int>> v;
+            ans += recursePath_B(map, heads[i], 0, v);
+        }
         return ans;
     }
 
