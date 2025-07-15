@@ -11,6 +11,7 @@ namespace day10{
     int solve_A(std::string input);
     int solve_B(std::string input);
     int recursePath(std::vector<std::string> &map, std::pair<int,int> head, int depth, std::vector<std::pair<int,int>> &v);
+    int recursePath_B(std::vector<std::string> &map, std::pair<int,int> head, int depth, std::vector<std::pair<int,int>> &v);
 }
 
 enum path{
