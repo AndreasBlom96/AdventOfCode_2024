@@ -3,13 +3,97 @@
 #include <iostream>
 #include <chrono>
 #include "day10.h"
+#include <algorithm>
 
 namespace day10{
     using namespace std;
     int solve_A(string input){
         int ans = 0;
+        vector<string> map = utils::ReadAllLines(input);
+
+        //finding heads
+        vector<pair<int,int>> heads;
+        for(int i = 0; i<map.size(); i++){
+            for(int k = 0; k < map[i].length(); k++){
+                if(map[i][k] == '0') heads.push_back(make_pair(i,k));
+            }
+        }
+
+        //recursive solution
+        for(int i = 0; i< heads.size(); i++){
+            vector<pair<int,int>> visited;
+            ans += recursePath(map, heads[i], 0, visited);
+        }
+        
 
         return ans;
+    }
+
+    bool inBounds(const vector<string> &map ,pair<int,int> cord){
+        if(cord.first < 0 or cord.first >= map.size()) return false;
+        if(cord.second < 0 or cord.second >= map[cord.first].length()) return false;
+        return true;
+    }
+
+    vector<path> checkPaths(const vector<string> &map ,pair<int,int> cord){
+        vector<path> res;
+        int a,b;
+        if(inBounds(map, make_pair(cord.first-1, cord.second))){
+            a = map[cord.first][cord.second] - '0';
+            b = map[cord.first-1][cord.second] - '0';
+            if( a+1 == b) res.push_back(UP);
+        } 
+
+        if(inBounds(map, make_pair(cord.first+1, cord.second))){
+            a = map[cord.first][cord.second] - '0';
+            b = map[cord.first+1][cord.second] - '0';
+            if(a+1 == b) res.push_back(DOWN);
+        } 
+        if(inBounds(map, make_pair(cord.first, cord.second+1))){
+            a = map[cord.first][cord.second] - '0';
+            b = map[cord.first][cord.second+1] - '0';
+            if(a+1 == b) res.push_back(RIGHT);
+        } 
+        if(inBounds(map, make_pair(cord.first, cord.second-1))){
+            a = map[cord.first][cord.second] - '0';
+            b = map[cord.first][cord.second-1] - '0';
+            if(a+1 == b) res.push_back(LEFT);
+        } 
+        return res;
+    }
+
+    pair<int,int> step(pair<int,int> p, path q){
+        pair<int,int> res = make_pair(p.first, p.second);
+        switch(q) {
+            case UP:
+                res.first -=1;
+                break;
+            case RIGHT:
+                res.second += 1;
+                break;
+            case DOWN:
+                res.first += 1;
+                break;
+            case LEFT:
+                res.second -= 1;
+        }   
+        return res;
+    }
+
+    int recursePath(vector<string> &map, pair<int,int> head, int depth, vector<pair<int,int>> &v){
+        int score = 0;
+        vector<path> paths = checkPaths(map, head);
+        int numPaths = paths.size();
+        auto it = find(v.begin(), v.end(), head);
+        if(depth == 9 and it == v.end()){
+            v.push_back(head);
+            return 1;
+        } 
+        if(numPaths == 0 or it != v.end()) return 0;
+        for(int i = 0; i<numPaths; i++){
+           score += recursePath(map,step(head,paths[i]),depth+1, v);
+        }
+        return score;
     }
 
     int solve_B(string input){
