@@ -88,7 +88,6 @@ namespace day11{
         for(int i = 0; i<stones.size(); i++){
             ans += recursive_stones(stones[i], 75, memo);
         }
-
         return ans;
     }
 

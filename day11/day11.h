@@ -4,6 +4,7 @@
 #include<iostream>
 #include <map>
 
+
 std::string INPUT_DAY_11 = "C:\\Users\\anblo\\Documents\\CodingProjects\\AoC_Uni\\inputs\\day11.txt";
 std::string INPUT_DAY_11_example = "C:\\Users\\anblo\\Documents\\CodingProjects\\AoC_Uni\\inputs\\day11_example.txt";
 
