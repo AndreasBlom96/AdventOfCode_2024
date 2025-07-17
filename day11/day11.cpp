@@ -5,6 +5,7 @@
 #include "day11.h"
 #include <algorithm>
 
+
 namespace day11{
     using namespace std;
     int solve_A(string input){
@@ -25,32 +26,10 @@ namespace day11{
             cout << s << endl;
         }
 
-        for(int blink = 0; blink < 25; blink++){
-            cout << "blink: " << blink << endl;
-            for(int i = 0; i<stones.size(); i++){
-                string s = stones[i];
-                if(s == "0"){
-                    stones[i] = "1";
-                } else if(s.length() % 2 == 0){
-                    //split even, removing leading zeroes
-                    int l = s.length();
-                    int half = l/2;
-                    string temp = s.substr(0, half);
-                    stones[i] = temp;
-
-                    temp = s.substr(half);
-                    remove_leading_zeroes(temp);
-                    auto it = stones.begin();
-                    it += i+1;
-                    stones.insert(it, temp);
-                    i++;
-                } else {
-                    stones[i] = to_string(stoull(s) * 2024);
-                }
-            }
+        map<pair<string, int>, unsigned long long> memo;
+        for(int i = 0; i < stones.size(); i++){
+            ans += recursive_stones(stones[i], 25, memo);
         }
-
-        ans = stones.size();
         return ans;
     }
 
@@ -60,8 +39,55 @@ namespace day11{
         }
     }
 
-    int solve_B(string input){
-        int ans = 0;
+    unsigned long long recursive_stones( const string s, const int depth, map<pair<string,int>, unsigned long long> &p){
+        vector<string> v;
+        string temp;
+        if(depth == 0) return 1;
+
+        auto it = p.find(make_pair(s, depth));
+        if(it != p.end()) return it -> second;
+
+        if(s == "0"){
+            v.push_back("1");
+        } else if (s.length() % 2 == 0){
+            int half = s.length()/2;
+            string se = s.substr(half);
+            remove_leading_zeroes(se);
+            v.push_back(s.substr(0,half));
+            v.push_back(se);
+        } else {
+            v.push_back(to_string(stoull(s) * 2024));
+        }
+        unsigned long long sum = 0;
+        for(int i = 0; i < v.size(); i++){
+            sum += recursive_stones(v[i], depth -1, p);
+        }
+        p.insert({make_pair(s,  depth), sum});
+        return sum;
+    }
+
+    unsigned long long solve_B(string input){
+        unsigned long long ans = 0;
+        string line = utils::ReadAllLines(input)[0];
+        vector<string> stones;
+
+        size_t index;
+        while(true){
+            index = line.find(' ');
+            if(index == string::npos) break;
+            stones.push_back(line.substr(0,index));
+            line = line.substr(index +1);
+        }
+        stones.push_back(line);
+
+        for(string s : stones){
+            cout << s << endl;
+        }
+
+        map<pair<string, int>, unsigned long long> memo;
+        for(int i = 0; i<stones.size(); i++){
+            ans += recursive_stones(stones[i], 75, memo);
+        }
 
         return ans;
     }
