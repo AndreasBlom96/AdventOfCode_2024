@@ -24,5 +24,8 @@ std::vector<std::string> ReadAllLines(std::string input){
     return lines;
 }
 
+bool checkInBounds(int row, int col, const std::vector<std::string> &map){
+    return (row >= 0 && row < map.size() && col >= 0 && col < map[row].length());
+}
 
 }
