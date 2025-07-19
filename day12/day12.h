@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include<iostream>
+#include <iostream>
+#include <ranges>
+#include <numeric>
 
 std::string INPUT_DAY_12 = "C:\\Users\\anblo\\Documents\\CodingProjects\\AoC_Uni\\inputs\\day12.txt";
 std::string INPUT_DAY_12_example = "C:\\Users\\anblo\\Documents\\CodingProjects\\AoC_Uni\\inputs\\day12_example.txt";
@@ -25,6 +27,16 @@ struct region{
 
     int getSize(){
         return points.size();
+    }
+
+    int getPerimeter(){
+        int sum = std::transform_reduce(
+            points.begin(), points.end(),
+            0,
+            std::plus<>(),
+            [](garden_point &gp){return gp.neighbours;}
+        );
+        return sum;
     }
 };
 

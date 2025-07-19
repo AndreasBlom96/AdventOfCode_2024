@@ -46,7 +46,9 @@ namespace day12{
 
         for(int i = 0; i< regions.size(); i++){
             int area = regions[i].getSize();
-            cout << "area of " << regions[i].type << ": " << area << endl;
+            int perimeter = regions[i].getPerimeter();
+            //cout << "type: " << regions[i].type << ", area: " << area << ", perimeter: " << perimeter << endl;
+            ans += area * perimeter;
         }
         return ans;
     }
