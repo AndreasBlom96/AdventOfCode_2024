@@ -18,6 +18,8 @@ namespace day12{
     int solve_B(std::string input);
     void add_valid_neighbours(const auto q, auto &queue, const auto &garden, auto &v);
     int check_n(const garden_point gp, const auto &garden);
+    int check_inner_corners(const garden_point q, const std::vector<std::string> &garden);
+    int check_outer_corners(const garden_point gp, const std::vector<std::string> &garden);
 }
 
 

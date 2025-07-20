@@ -3,14 +3,13 @@
 #include <iostream>
 #include <chrono>
 #include "day12.h"
-#include <tuple>
-#include <ranges>
-#include <algorithm>
 #include <queue>
 #include <unordered_set>
+#include <algorithm>
 
 namespace day12{
     using namespace std;
+
     int solve_A(string input){
         int ans = 0;
         vector<string> garden = utils::ReadAllLines(input);
@@ -79,9 +78,95 @@ namespace day12{
         return;
     }
 
+    int check_inner_corners(const garden_point q, const vector<string> &garden){
+        int res = 0;
+        auto c = garden[q.row][q.col];
+        vector<pair<int,int>> dir = {{-1,-1}, {-1,1}, {1,-1}, {1,1}};
+        auto q_pair = make_pair(q.row, q.col);
+        
 
+        //find diagonal elements that makes an inner corner in the region
+        for(pair<int,int> p : dir){
+            auto step = p + q_pair;
+            bool first= false;
+            if(utils::checkInBounds(step.first, step.second, garden) && garden[step.first][step.second] == c){
+                if(utils::checkInBounds(step.first, q.col, garden) && garden[step.first][q.col] != c ){
+                    res++;
+                    first = true;
+                }
+                if(utils::checkInBounds(q.row, step.second, garden) && garden[q.row][step.second] != c){
+                    if(first){
+                        res--;
+                    } else {
+                        res++;
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    int check_outer_corners( const garden_point gp, const vector<string> &garden){
+        bool corner = false;
+        int res = 0;
+        vector<pair<int,int>> dir = {{-1,0}, {0,1}, {1,0}, {0, -1}, {-1, 0}};
+        for(pair<int,int> p : dir){
+            pair<int,int> step = p + make_pair(gp.row, gp.col);
+            if(!utils::checkInBounds(step.first, step.second, garden) or garden[step.first][step.second] != garden[gp.row][gp.col]){
+                if(corner) res++;
+                corner = true;
+            } else {
+                corner = false;
+            }
+        }
+        return res;
+    }
+    
     int solve_B(string input){
         int ans = 0;
+        vector<string> garden = utils::ReadAllLines(input);
+
+        vector<region> regions;
+        unordered_set<pair<int,int> , utils::pair_hash> visited;
+        //walker! walking the region
+        for(int row = 0; row < garden.size(); row++){
+            for(int col = 0; col < garden[row].length(); col++){
+                
+                if(visited.contains(pair{row,col})) continue;
+                visited.insert(make_pair(row, col));
+
+                garden_point gp{row, col, 0};
+                gp.neighbours = check_n(gp, garden);
+
+                queue<garden_point> queue;
+                queue.push(gp);                
+                vector<garden_point> g;
+                
+                while(!queue.empty()){
+                    garden_point q = queue.front(); queue.pop();
+                    g.push_back(q);
+                    
+                    //check for possible valid neighbours (at the same time check perimeter?)
+                    add_valid_neighbours(q, queue, garden, visited);
+                }
+                region r{g, garden[row][col]};
+                regions.push_back(r); 
+            }
+        }
+
+        for(int i = 0; i< regions.size(); i++){
+            int area = regions[i].getSize();
+            int sumInner = 0;
+            int sumOuter = 0;
+            for(garden_point gp : regions[i].points){
+                sumInner += check_inner_corners(gp, garden);
+                sumOuter += check_outer_corners(gp, garden);
+            }
+            sumInner /= 2;
+            //cout << area << " * (" << sumInner << " + " << sumOuter << ")" << endl;
+            ans += area * (sumInner+sumOuter);
+        }
 
         return ans;
     }
