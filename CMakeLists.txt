@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(AoC VERSION 0.1.0 LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 add_subdirectory(day01)
 add_subdirectory(day03)
@@ -19,3 +22,4 @@ include(CPack)
 add_subdirectory(day09)
 add_subdirectory(day10)
 add_subdirectory(day11)
+add_subdirectory(day12)
