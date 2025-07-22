@@ -50,60 +50,53 @@ class machine{
     }
 
     std::pair<int,bool> find_solution(){
-        std::string starter = getStarter();
-        unsigned long long xA;
-        unsigned long long helper;
-        unsigned long long tempPrize;
-        if(starter[0] == 'f'){
-            tempPrize = prize.first;
-            if(starter[1] == 'a'){
-                xA = button_a.first;
-                helper = button_b.first;
-            } else {
-                xA = button_b.first;
-                helper = button_a.first;
-            }
-        } else {
-            tempPrize = prize.second;
-            if(starter[1] == 'a'){
-                xA = button_a.first;
-                helper = button_b.first;
-            } else {
-                xA = button_b.first;
-                helper = button_a.first;
-            }
-        }
 
-        unsigned long long start = tempPrize % xA;
-        int xA_multiplier = tempPrize / xA;
-        if(xA_multiplier > 100){
-            xA_multiplier = 100;
-            start = tempPrize - 100*xA;
+        //four crucial test. it seems like it doesnt matter which test i do? i get same answer every time?
+        auto [first, second] = helper_solution(button_a.first, button_b.first, prize.first, true);
+        int costA = getCost(first, second);
+        /*
+        auto [a, b] = helper_solution(button_b.first, button_a.first, prize.first, false);
+        int costB = getCost(a, b);
+        auto [firstB, secondB] = helper_solution(button_a.second, button_b.second, prize.second, true);
+        int costC = getCost(firstB, secondB);
+        auto [aB, bB] = helper_solution(button_b.second, button_a.second, prize.second, false);
+        int costD = getCost(aB, bB);
+        */
+        if(first == -1) return std::make_pair(-1, false);
+
+
+        return std::make_pair(costA,true);
+    }
+
+    std::pair<int,int> helper_solution(int first, int second, int prize, bool A_is_first){
+        int start = prize % first;
+        int first_multiplier = prize / first;
+        if(first_multiplier > 100){
+            first_multiplier = 100;
+            start = prize - first_multiplier * first;
         }
-        bool success = false;
-        while(xA_multiplier > 0){
-            if(start % helper == 0){
+        while(first_multiplier >= 0){
+            if(start % second == 0){
                 // found matching, I DONT KNOW WHAT IS A AND B???
-                int numA;
-                int numB;
-                if(starter[1] == 'a'){
-                    numA = xA_multiplier;
-                    numB = start / helper;
+                int second_multiplier = start / second;
+                if(A_is_first){
+                    if(checkPrize(first_multiplier, second_multiplier))
+                    {
+                        return std::make_pair(first_multiplier, second_multiplier);
+                    }  
                 } else {
-                    numA = start / helper;
-                    numB = xA_multiplier;
+                    if (checkPrize(second_multiplier, first_multiplier))
+                    {
+                        return std::make_pair(second_multiplier, first_multiplier);
+                    }
+                    
                 }
-                if(checkPrize(numA,numB))
-                {
-                    success = true;
-                    return std::make_pair(getCost(numA, numB), success);
-                } 
+                
             }
-            start += xA;
-            xA_multiplier--;
+            start += first;
+            first_multiplier--;
         }
-
-        return std::make_pair(-1,success);
+        return std::make_pair(-1,-1);
     }
 
 };
@@ -141,7 +134,7 @@ namespace day13{
         for(machine m : machines){
             result = m.find_solution();
             if(result.second){
-                cout << "found solution: price -> " << result.first << endl;
+                //cout << "found solution: price -> " << result.first << endl;
                 ans += result.first; 
             }
         }
