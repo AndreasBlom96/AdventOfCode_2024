@@ -23,7 +23,6 @@ class machine{
     }
 
     std::pair<long long ,bool> find_solution(){
-
         //four crucial test. it seems like it doesnt matter which test i do? i get same answer every time?
         auto [first, second] = helper_solution(button_a.first, button_b.first, prize.first, true);
         int costA = getCost(first, second);
@@ -35,10 +34,8 @@ class machine{
         auto [aB, bB] = helper_solution(button_b.second, button_a.second, prize.second, false);
         int costD = getCost(aB, bB);
         */
-        
+       
         if(first == -1) return std::make_pair(-1, false);
-
-
         return std::make_pair(costA,true);
     }
 
@@ -72,7 +69,7 @@ class machine{
         }
         return std::make_pair(-1,-1);
     }
-
+  
     std::pair<long long, long long> solve_diophantine(){
         long long a1,a2,b1,b2,p1,p2, LCM;
         a1 = button_a.first;
@@ -180,8 +177,6 @@ namespace day13{
                 machines.push_back(m);
             }
         }
-        
-        // https://math.libretexts.org/Courses/Mount_Royal_University/Higher_Arithmetic/5%3A_Diophantine_Equations/5.1%3A_Linear_Diophantine_Equations?utm_source=chatgpt.com
 
         //pair<int,bool> result;
         for(machine m : machines){
