@@ -2,18 +2,41 @@
 #include "../common/utils.h"
 #include <iostream>
 #include <chrono>
-#include "day?.h"
+#include "day14.h"
+#include "helperClass.h"
 
-namespace day?{
+namespace day14{
     using namespace std;
     unsigned long long solve_A(string input){
         unsigned long long ans = 0;
+        vector<string> lines = utils::ReadAllLines(input);
+
+        Board b = Board(7,11);
+        if(input.find("example") == string::npos){
+            b = Board(103,101);
+        } 
+       
+        //parse input
+        for(string line : lines){
+            Robot R;
+            int posX = stoi(line.substr(line.find("=")+1));
+            int posY = stoi(line.substr(line.find(",")+1));
+            int velX = stoi(line.substr(line.rfind("=")+1));
+            int velY = stoi(line.substr(line.rfind(",")+1));
+            R.pos = make_pair(posX, posY);
+            R.vel = make_pair(velX, velY);
+            b.addRobot(R);
+        }
+        
+        b.print();
+        b.step(100);
+        b.print();
 
         return ans;
     }
 
     unsigned long long solve_B(string input){
-        unsigned long long ans = 0;
+        int ans = 0;
 
         return ans;
     }
@@ -23,11 +46,11 @@ namespace day?{
 
 
 int main(int argc, char* argv[]){
-    std::string input = INPUT_DAY_?;
+    std::string input = INPUT_DAY_14;
     unsigned long long result;
     if (argc >= 3 and std::string(argv[2]) == "example")
     {
-        input = INPUT_DAY_?_example;
+        input = INPUT_DAY_14_example;
     }
     
     if (argc >= 2)  
@@ -36,7 +59,7 @@ int main(int argc, char* argv[]){
         if (part == "A")
         {
             auto start = std::chrono::high_resolution_clock::now();
-            result = day?::solve_A(input);
+            result = day14::solve_A(input);
             auto stop = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
             std::cout << "it took: " << duration.count() << "ms" << std::endl;
@@ -46,7 +69,7 @@ int main(int argc, char* argv[]){
         else if (part == "B")
         {
             auto start = std::chrono::high_resolution_clock::now();
-            result = day?::solve_B(input);
+            result = day14::solve_B(input);
             auto stop = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
             std::cout << "it took: " << duration.count() << "ms" << std::endl;
