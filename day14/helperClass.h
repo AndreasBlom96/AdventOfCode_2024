@@ -25,5 +25,6 @@ class Board{
     bool addRobot(Robot R);
     void step(int times);
     void print();
-    unsigned long long split_and_cound();
+    unsigned long long split_and_count();
+    long long easter_egg();
 };

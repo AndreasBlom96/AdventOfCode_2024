@@ -28,15 +28,40 @@ namespace day14{
             b.addRobot(R);
         }
         
-        b.print();
+        //b.print();
         b.step(100);
-        b.print();
+        //b.print();
+        ans = b.split_and_count();
+        //b.print();
 
         return ans;
     }
 
     unsigned long long solve_B(string input){
         int ans = 0;
+
+        vector<string> lines = utils::ReadAllLines(input);
+
+        Board b = Board(7,11);
+        if(input.find("example") == string::npos){
+            b = Board(103,101);
+        } 
+       
+        //parse input
+        for(string line : lines){
+            Robot R;
+            int posX = stoi(line.substr(line.find("=")+1));
+            int posY = stoi(line.substr(line.find(",")+1));
+            int velX = stoi(line.substr(line.rfind("=")+1));
+            int velY = stoi(line.substr(line.rfind(",")+1));
+            R.pos = make_pair(posX, posY);
+            R.vel = make_pair(velX, velY);
+            b.addRobot(R);
+        }
+        
+        //b.print();
+        ans = b.easter_egg();
+        b.print();
 
         return ans;
     }
