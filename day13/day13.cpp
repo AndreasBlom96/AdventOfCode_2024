@@ -5,52 +5,24 @@
 #include "day13.h"
 
 class machine{
-    private:
+    public:
     std::pair<int,int> button_a;
     std::pair<int,int> button_b;
-    std::pair<int,int> prize;
+    std::pair<unsigned long long, unsigned long long> prize;
 
-    public:
-
-    machine(std::pair<int,int> a, std::pair<int,int> b, std::pair<int,int> prize) 
+    machine(std::pair<int,int> a, std::pair<int,int> b, std::pair<unsigned long long, unsigned long long> prize) 
     : button_a(a), button_b(b), prize(prize){}
 
-    unsigned long long getCost(int numA, int numB) const {
+    unsigned long long getCost(unsigned long long numA, unsigned long long numB) const {
         return 3*numA + numB;
     }
 
-    bool checkPrize(int numA, int numB) const {
+    bool checkPrize(unsigned long long numA, unsigned long long numB) const {
         return (numA * button_a.first + numB * button_b.first == prize.first) && 
         (numA * button_a.second + numB * button_b.second == prize.second);
     }
 
-    std::string getStarter(){
-        std::string result;
-        if(prize.first > prize.second){
-            result = "f";
-        } else {
-            result = "s";
-        }
-
-        if(result == "f"){
-            if(button_a.first > 3*button_b.first){
-                result += "a";
-            } else {
-                result += "b";
-            }
-        } else if (result == "s")
-        {
-            if(button_a.second > 3*button_b.second){
-                result += "a";
-            } else {
-                result += "b";
-            }
-        }
-        return result;
-    }
-
-    std::pair<int,bool> find_solution(){
-
+    std::pair<long long ,bool> find_solution(){
         //four crucial test. it seems like it doesnt matter which test i do? i get same answer every time?
         auto [first, second] = helper_solution(button_a.first, button_b.first, prize.first, true);
         int costA = getCost(first, second);
@@ -62,15 +34,14 @@ class machine{
         auto [aB, bB] = helper_solution(button_b.second, button_a.second, prize.second, false);
         int costD = getCost(aB, bB);
         */
+       
         if(first == -1) return std::make_pair(-1, false);
-
-
         return std::make_pair(costA,true);
     }
 
-    std::pair<int,int> helper_solution(int first, int second, int prize, bool A_is_first){
-        int start = prize % first;
-        int first_multiplier = prize / first;
+    std::pair<long long, long long> helper_solution(int first, int second, unsigned long long prize, bool A_is_first){
+        unsigned long long start = prize % first;
+        long long first_multiplier = prize / first;
         if(first_multiplier > 100){
             first_multiplier = 100;
             start = prize - first_multiplier * first;
@@ -78,7 +49,7 @@ class machine{
         while(first_multiplier >= 0){
             if(start % second == 0){
                 // found matching, I DONT KNOW WHAT IS A AND B???
-                int second_multiplier = start / second;
+                unsigned long long second_multiplier = start / second;
                 if(A_is_first){
                     if(checkPrize(first_multiplier, second_multiplier))
                     {
@@ -98,7 +69,46 @@ class machine{
         }
         return std::make_pair(-1,-1);
     }
+  
+    std::pair<long long, long long> solve_diophantine(){
+        long long a1,a2,b1,b2,p1,p2, LCM;
+        a1 = button_a.first;
+        a2 = button_a.second;
+        b1 = button_b.first;
+        b2 = button_b.second;
+        p1 = prize.first;
+        p2 = prize.second;
+        LCM = a1 * a2;
 
+        long long new_b1 = a2 * b1;
+        long long new_b2 = a1 * b2;
+        long long new_p1 = a2 * p1;
+        long long new_p2 = a1 * p2;
+
+        new_b2 -= new_b1;
+        new_p2 -= new_p1;
+
+        bool ok =  true;
+        if(new_p2 % new_b2 != 0){
+            //std::cout << "Integer solution doesnt exist!" << std::endl;
+            ok = false;
+            return std::make_pair(-1,-1);
+        } 
+
+        new_p2 /= new_b2;
+        new_b2 = 1;
+         
+        new_p1 -= (new_p2 * new_b1);
+        if(new_p1 % LCM != 0){
+            //std::cout << "Integer solution doesnt exist!" << std::endl;
+            ok = false;
+            return std::make_pair(-1,-1);
+        }
+        new_p1 /= LCM;
+        
+        if(!checkPrize(new_p1, new_p2)) std::cout << "something weird happend here!" << std::endl;
+        return std::make_pair(new_p1, new_p2);
+    }
 };
 
 
@@ -143,7 +153,39 @@ namespace day13{
 
     unsigned long long solve_B(string input){
         unsigned long long ans = 0;
+        vector<string> lines = utils::ReadAllLines(input);
 
+        pair<int,int> A;
+        pair<int,int> B;
+        pair<unsigned long long, unsigned long long> p;
+        vector<machine> machines;
+        for(string line : lines){
+            if(line.find("A:") != string::npos){
+                A.first = stoi(line.substr(line.find("+") +1));
+                A.second = stoi(line.substr(line.rfind("+") +1));
+            } else if (line.find("B:") != string::npos)
+            {
+                B.first = stoi(line.substr(line.find("+") +1));
+                B.second = stoi(line.substr(line.rfind("+") +1));
+            } else if (line.find("Prize:") != string::npos)
+            {
+                p.first = stoull(line.substr(line.find("=") +1));
+                p.second = stoull(line.substr(line.rfind("=") +1));
+                p.first += 10000000000000;
+                p.second += 10000000000000;
+                machine m = machine(A,B,p);
+                machines.push_back(m);
+            }
+        }
+
+        //pair<int,bool> result;
+        for(machine m : machines){
+            auto result = m.solve_diophantine();
+            if(result.first != -1){
+                //cout << "found solution: -> " << result.first << ", " << result.second << endl;
+                ans += m.getCost(result.first, result.second); 
+            }
+        }
         return ans;
     }
 

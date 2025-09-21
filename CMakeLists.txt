@@ -24,4 +24,8 @@ add_subdirectory(day10)
 add_subdirectory(day11)
 add_subdirectory(day12)
 add_subdirectory(day13)
+<<<<<<< HEAD
 add_subdirectory(day15)
+=======
+add_subdirectory(day14)
+>>>>>>> master

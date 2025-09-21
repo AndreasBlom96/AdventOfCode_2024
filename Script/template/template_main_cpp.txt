@@ -6,14 +6,14 @@
 
 namespace day?{
     using namespace std;
-    int solve_A(string input){
-        int ans = 0;
+    unsigned long long solve_A(string input){
+        unsigned long long ans = 0;
 
         return ans;
     }
 
-    int solve_B(string input){
-        int ans = 0;
+    unsigned long long solve_B(string input){
+        unsigned long long ans = 0;
 
         return ans;
     }

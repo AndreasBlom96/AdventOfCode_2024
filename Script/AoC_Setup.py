@@ -4,7 +4,7 @@ from download_input import fetch_input_data
 
 
 def CMake_text(day):
-    CMake_list_text = f""" add_executable(day{day:02} day{day:02}.cpp)
+    CMake_list_text = f"""add_executable(day{day:02} day{day:02}.cpp)
 
 target_link_libraries(day{day:02} PRIVATE common) """
     return CMake_list_text
