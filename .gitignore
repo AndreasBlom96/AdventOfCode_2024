@@ -18,3 +18,8 @@ Script/AoCRunner/
 cookie_session.txt
 
 *.pyc
+
+# randoms shit?
+Upgradelog.htm
+*.suo
+/Backup
