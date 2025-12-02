@@ -96,15 +96,18 @@ if __name__== "__main__":
     os.chdir(project_path)
     print(project_path)
 
+    error = False
     if argc > 1:
         if argv[1].lower() == "help":
             print(" specify day!")
-        day = int(argv[1])
-        if day < 25 and day > 0:
-            print(f"setting up day {day:02}")
-            setup(day)
-        else:
-            print("day must be between 0 and 25")
+            error = True
+        if not error:
+            day = int(argv[1])
+            if day < 25 and day > 0:
+                print(f"setting up day {day:02}")
+                setup(day)
+            else:
+                print("day must be between 0 and 25")
     else:
         day = int(input("what day do you want to setup?: "))
         if day < 26 and day > 0:

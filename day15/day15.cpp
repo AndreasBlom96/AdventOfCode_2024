@@ -6,13 +6,76 @@
 
 namespace day15{
     using namespace std;
-    int solve_A(string input){
-        int ans = 0;
+    unsigned long long solve_A(string input){
+        unsigned long long ans = 0;
+        
+        vector<string> lines = utils::ReadAllLines(input);
 
-        return ans;
+        int row=0;
+        int col=0;
+        vector<char> moves;
+        vector<vector<char>> grid;
+        int moves_flag=0;
+        Robot r(0,0);
+        Map m = Map(10,10, &r);
+        for(string line : lines){
+            col =0;
+            vector<char> v;
+            for(char c : line){
+                if(c == WALL){
+                    Wall w = Wall(row, col);
+                    v.push_back(c);
+                    m.walls.push_back(w);
+                }
+                else if (c==CRATE)
+                {
+                    Crate cr = Crate(row, col);
+                    v.push_back(c);
+                    m.crates.push_back(cr);
+                }
+                else if (c==ROBOT)
+                {
+                    r.row = row;
+                    r.column = col;
+                    v.push_back(c);
+                }
+                else if (c=='.')
+                {
+                    v.push_back(c);
+                }
+                else
+                {
+                    moves.push_back(c);
+                    col--;
+                    moves_flag = 1;
+                }
+                
+                col++;
+            } //end of inner for loop
+            
+            if(moves_flag == 0)
+            {
+                grid.push_back(v);
+                row++;
+            }
+        } // end out outer for loop
+        m.grid = grid;
+
+
+        cout << "init stat:\n";
+        print_grid(grid);
+        //process moves
+        for(char move : moves){
+           // cout << "moving- " << move << "\n";
+            recursive_move(move, grid, r.row, r.column, ROBOT, &r);
+           // print_grid(grid);
+        }
+        
+        print_grid(grid);
+        return solve(grid);
     }
 
-    int solve_B(string input){
+    unsigned long long solve_B(string input){
         int ans = 0;
 
         return ans;
