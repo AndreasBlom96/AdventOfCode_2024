@@ -17,7 +17,7 @@ namespace day15{
         vector<vector<char>> grid;
         int moves_flag=0;
         Robot r(0,0);
-        Map m = Map(10,10, &r);
+        Map m = Map(&r);
         for(string line : lines){
             col =0;
             vector<char> v;
@@ -76,7 +76,77 @@ namespace day15{
     }
 
     unsigned long long solve_B(string input){
-        int ans = 0;
+        unsigned long long ans = 0;
+        
+        vector<string> lines = utils::ReadAllLines(input);
+
+        int row=0;
+        int col=0;
+        vector<char> moves;
+        unordered_map<pair<int,int>,char,PairHash> grid;
+        int moves_flag=0;
+        Robot r(0,0);
+        Map m = Map(&r);
+        pair<int,int> coord;
+        for(string line : lines){
+            col =0;
+            for(char obj : line){
+                coord = {row, col};
+
+                if(obj == WALL){
+                    Wall w = Wall(row, col);
+                    grid[coord] = obj;
+                    coord.second++;
+                    grid[{coord}] = obj;
+                    m.walls.push_back(w);
+                }
+                else if (obj == CRATE)
+                {
+                    Crate cr = Crate(row, col);
+                    grid[coord] = '[';
+                    coord.second++;
+                    grid[coord] = ']';
+                    m.crates.push_back(cr);
+                }
+                else if (obj == ROBOT)
+                {
+                    r.row = row;
+                    r.column = col;
+                    grid[coord] = ROBOT;
+                    coord.second++;
+                    grid[coord] = '.';
+                }
+                else if (obj == '.')
+                {
+                    grid[coord] = '.';
+                    coord.second++;
+                    grid[coord] = '.';
+                }
+                else
+                {
+                    moves.push_back(obj);
+                    col -= 2;
+                    moves_flag = 1;
+                }
+                
+                col += 2;
+            } //end of inner for loop
+            
+            if(moves_flag == 0)
+            {
+                row++;
+            }
+        } // end out outer for loop
+
+        cout << "init stat:\n";
+        print_map(grid);
+        //process moves
+        for(char move : moves){
+            cout << "moving- " << move << "\n";
+            recursive_move_b(move, r.row, r.column, ROBOT, grid, &r);
+            print_map(grid);
+        }
+        
 
         return ans;
     }
